@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>SWAP QUEST - 元金回収ゲーム</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <style>
+    :root{--bg:#07111f;--panel:#0f1b2d;--panel2:#13243b;--text:#eef6ff;--muted:#91a4bb;--accent:#65e1c2;--accent2:#ffd166;--danger:#ff7b7b;--good:#6ee7a7;--line:#223652;--shadow:0 12px 34px rgba(0,0,0,.28)}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at top,#10223d 0,#07111f 44%,#050b14 100%);color:var(--text);min-height:100vh}
+    button,input,select{font:inherit}.app{max-width:980px;margin:0 auto;padding:18px 14px 92px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.brand h1{font-size:22px;margin:0;letter-spacing:.05em}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.pill{background:#122945;border:1px solid #24486d;color:#bfe7ff;border-radius:999px;padding:7px 10px;font-size:12px}
+    .hero{background:linear-gradient(145deg,#10253f,#0b1728);border:1px solid #203c5e;border-radius:22px;padding:18px;box-shadow:var(--shadow);overflow:hidden;position:relative}.hero:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;background:rgba(101,225,194,.08);right:-70px;top:-95px}.hero-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.eyebrow{color:var(--muted);font-size:12px}.big{font-size:34px;font-weight:800;letter-spacing:-.03em;margin-top:3px}.sub{color:var(--muted);font-size:13px}.progress{height:16px;background:#08111e;border:1px solid #1d314a;border-radius:999px;overflow:hidden;margin:14px 0 8px}.progress>span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#8df6dd);width:0;transition:width .35s ease}.progress.secondary>span{background:linear-gradient(90deg,var(--accent2),#ffe4a1)}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}.card{background:rgba(15,27,45,.92);border:1px solid var(--line);border-radius:18px;padding:15px;box-shadow:0 8px 24px rgba(0,0,0,.18)}.card h3{margin:0 0 8px;font-size:13px;color:#cfe0f2;font-weight:700}.metric{font-size:24px;font-weight:800;letter-spacing:-.02em}.metric.good{color:var(--good)}.metric.bad{color:var(--danger)}.tiny{font-size:12px;color:var(--muted);margin-top:5px}.span2{grid-column:1/-1}.row{display:flex;justify-content:space-between;gap:12px;align-items:center}.rows{display:grid;gap:9px}.rows .item{padding:10px 0;border-bottom:1px solid rgba(34,54,82,.72)}.rows .item:last-child{border-bottom:0}
+    .section-title{font-size:16px;margin:22px 2px 10px}.btn{border:0;border-radius:12px;padding:11px 14px;background:var(--accent);color:#052019;font-weight:800;cursor:pointer}.btn.secondary{background:#1a2b43;color:#e7f2ff;border:1px solid #2a4565}.btn.danger{background:#3b1f29;color:#ffd9df;border:1px solid #6b2c3e}.btn.small{padding:7px 9px;font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap}
+    .form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.form label{font-size:12px;color:var(--muted);display:grid;gap:6px}.form input,.form select{width:100%;background:#08131f;color:var(--text);border:1px solid #29435f;border-radius:11px;padding:10px 11px;outline:none}.form .full{grid-column:1/-1}.help{font-size:11px;color:var(--muted);line-height:1.55}.tag{display:inline-flex;align-items:center;border-radius:999px;padding:4px 8px;font-size:11px;border:1px solid #2b4b6d;background:#0b1a2c;color:#c8def4}.tag.gold{border-color:#6d5830;color:#ffe6a4}.tag.green{border-color:#285b4e;color:#b8f7e4}.tag.red{border-color:#713543;color:#ffc2cb}.account,.mission,.history{display:grid;gap:9px}.account{padding:13px;border:1px solid #213954;background:#0b1728;border-radius:15px}.account strong{font-size:15px}.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}.kpi{background:#07111d;border-radius:12px;padding:10px;border:1px solid #1c3048}.kpi b{display:block;font-size:17px;margin-top:2px}.mission{padding:14px;border-radius:16px;background:linear-gradient(150deg,#101f35,#0a1422);border:1px solid #29435f}.missionbar{height:9px;background:#06101a;border-radius:999px;overflow:hidden}.missionbar span{display:block;height:100%;background:linear-gradient(90deg,#ff9a62,#ffd166)}
+    .nav{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);width:min(680px,calc(100% - 24px));background:rgba(8,17,30,.95);backdrop-filter:blur(18px);border:1px solid #243b58;border-radius:18px;padding:7px;display:grid;grid-template-columns:repeat(5,1fr);z-index:20;box-shadow:var(--shadow)}.nav button{background:transparent;border:0;color:#7f95ae;padding:9px 4px;border-radius:12px;font-size:11px;cursor:pointer}.nav button.active{background:#132a44;color:#eafff9}.view{display:none}.view.active{display:block}.empty{text-align:center;padding:22px 8px;color:var(--muted);font-size:13px}.toast{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-20px);background:#dffdf5;color:#06251d;border-radius:12px;padding:10px 14px;font-weight:800;opacity:0;pointer-events:none;transition:.25s;z-index:50}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    @media(max-width:640px){.app{padding-top:12px}.grid,.form{grid-template-columns:1fr}.span2,.form .full{grid-column:auto}.big{font-size:30px}.hero-head{display:block}.hero-head .pill{display:inline-block;margin-top:10px}.two{grid-template-columns:1fr 1fr}.metric{font-size:22px}}
+  </style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<div class="app">
+  <div class="topbar"><div class="brand"><h1>SWAP QUEST</h1><p>税引後・為替損益込みで元金回収を目指す</p></div><span class="pill" id="todayLabel"></span></div>
+
+  <section id="home" class="view active">
+    <div class="hero">
+      <div class="hero-head"><div><div class="eyebrow">🎯 元金回収クエスト</div><div class="big" id="targetText">¥3,000,000</div><div class="sub">公式スコア = 確定損益 − 想定税金</div></div><span class="pill" id="levelLabel">START</span></div>
+      <div class="progress"><span id="realizedBar"></span></div>
+      <div class="row"><span class="sub">確定回収率</span><strong id="realizedRate">0.0%</strong></div>
+      <div class="progress secondary"><span id="liquidBar"></span></div>
+      <div class="row"><span class="sub">今すぐ全決済した場合（単純試算）</span><strong id="liquidRate">0.0%</strong></div>
+    </div>
+
+    <div class="grid">
+      <div class="card"><h3>SWAP TOTAL</h3><div class="metric good" id="swapTotal">¥0</div><div class="tiny">確定 + 未決済</div></div>
+      <div class="card"><h3>REALIZED SCORE</h3><div class="metric" id="realizedScore">¥0</div><div class="tiny">税引後の確定回収額</div></div>
+      <div class="card"><h3>LIQUIDATION SCORE</h3><div class="metric" id="liquidScore">¥0</div><div class="tiny">全ポジション決済時の税引後想定</div></div>
+      <div class="card"><h3>残り</h3><div class="metric" id="remaining">¥3,000,000</div><div class="tiny">元金回収まで</div></div>
+      <div class="card span2"><h3>今年の税金見込み</h3><div class="row"><div><div class="metric" id="taxEstimate">¥0</div><div class="tiny">確定損益がプラスの場合の単純試算</div></div><span class="tag gold" id="taxRateBadge">20.315%</span></div></div>
+    </div>
+
+    <h2 class="section-title">4口座サマリー</h2><div class="rows" id="accountSummary"></div>
+    <h2 class="section-title">高値掴み救出ミッション</h2><div class="rows" id="missionSummary"></div>
+  </section>
+
+  <section id="accounts" class="view">
+    <h2 class="section-title">口座</h2>
+    <div class="card"><div class="form">
+      <label>FX業者<select id="txAccount"></select></label>
+      <label>日付<input id="txDate" type="date"></label>
+      <label>種類<select id="txType"><option value="swap">確定スワップ</option><option value="fx">確定為替損益</option></select></label>
+      <label>金額（円）<input id="txAmount" type="number" inputmode="decimal" placeholder="例 4500 / -120000"></label>
+      <label class="full">メモ<input id="txMemo" placeholder="例 TRY/JPY 一部決済"></label>
+      <div class="full actions"><button class="btn" id="addTxBtn">確定損益を追加</button></div>
+    </div></div>
+    <h2 class="section-title">口座別成績</h2><div class="rows" id="accountCards"></div>
+  </section>
+
+  <section id="positions" class="view">
+    <h2 class="section-title">未決済ポジション</h2>
+    <div class="card"><div class="form">
+      <label>FX業者<select id="posAccount"></select></label>
+      <label>通貨ペア<input id="posPair" placeholder="例 TRY/JPY"></label>
+      <label>建値<input id="posEntry" type="number" step="0.0001" placeholder="例 3.55"></label>
+      <label>数量<input id="posQty" type="number" step="1" placeholder="例 1000000"></label>
+      <label>現在の為替評価損益（円）<input id="posFx" type="number" placeholder="例 -350000"></label>
+      <label>未決済スワップ（円）<input id="posSwap" type="number" placeholder="例 210000"></label>
+      <label>現在の1日スワップ（円）<input id="posDaily" type="number" placeholder="例 2500"></label>
+      <label>メモ<input id="posMemo" placeholder="高値掴みA など"></label>
+      <div class="full actions"><button class="btn" id="addPosBtn">ポジションを追加</button></div>
+      <div class="full help">※ 為替評価損益・未決済スワップは各FX業者の画面に表示される現在値を入力する想定です。アプリ側でレート換算はしません。</div>
+    </div></div>
+    <div class="rows" id="positionCards" style="margin-top:12px"></div>
+  </section>
+
+  <section id="history" class="view">
+    <h2 class="section-title">確定履歴</h2><div class="rows" id="historyList"></div>
+  </section>
+
+  <section id="settings" class="view">
+    <h2 class="section-title">設定</h2>
+    <div class="card"><div class="form">
+      <label>元金回収目標（円）<input id="setTarget" type="number"></label>
+      <label>想定税率（%）<input id="setTax" type="number" step="0.001"></label>
+      <div class="full actions"><button class="btn" id="saveSettingsBtn">設定を保存</button><button class="btn secondary" id="demoBtn">デモデータを投入</button><button class="btn danger" id="resetBtn">全データ削除</button></div>
+      <div class="full help">税金は簡易推計です。損失繰越・他の先物取引との損益通算・経費などは自動反映しません。確定申告用ではなく、元金回収の進捗管理用として使う設計です。</div>
+    </div></div>
+    <h2 class="section-title">データバックアップ</h2>
+    <div class="card"><div class="actions"><button class="btn secondary" id="exportBtn">バックアップを書き出す</button><label class="btn secondary" style="cursor:pointer">バックアップを読み込む<input id="importInput" type="file" accept="application/json" style="display:none"></label></div></div>
+  </section>
+</div>
+
+<nav class="nav">
+  <button data-view="home" class="active">🏠<br>ホーム</button><button data-view="accounts">🏦<br>口座</button><button data-view="positions">📍<br>ポジション</button><button data-view="history">🧾<br>履歴</button><button data-view="settings">⚙️<br>設定</button>
+</nav>
+
+<script>
+const DEFAULT_ACCOUNTS=[
+  {id:'gmo',name:'GMOクリック証券',mode:'daily',note:'日々スワップが確定'},
+  {id:'central',name:'セントラル短資FX',mode:'unrealized',note:'未決済スワップとして管理'},
+  {id:'jfx',name:'JFX',mode:'unrealized',note:'未決済スワップとして管理'},
+  {id:'sbi',name:'SBI FXトレード',mode:'unrealized',note:'未決済スワップとして管理'}
+];
+const KEY='swapQuestDataV1';
+let data=load();
+function load(){try{const d=JSON.parse(localStorage.getItem(KEY));if(d)return d}catch(e){}return {settings:{target:3000000,taxRate:20.315},accounts:DEFAULT_ACCOUNTS,transactions:[],positions:[]}}
+function save(){localStorage.setItem(KEY,JSON.stringify(data));renderAll()}
+const yen=n=>new Intl.NumberFormat('ja-JP',{style:'currency',currency:'JPY',maximumFractionDigits:0}).format(Math.round(n||0));
+const pct=n=>(n*100).toFixed(1)+'%';
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+function metrics(){
+ const realizedSwap=data.transactions.filter(x=>x.type==='swap').reduce((s,x)=>s+x.amount,0);
+ const realizedFx=data.transactions.filter(x=>x.type==='fx').reduce((s,x)=>s+x.amount,0);
+ const unrealSwap=data.positions.reduce((s,x)=>s+x.unrealizedSwap,0);
+ const unrealFx=data.positions.reduce((s,x)=>s+x.unrealizedFx,0);
+ const realizedPretax=realizedSwap+realizedFx;
+ const tax=Math.max(0,realizedPretax)*(data.settings.taxRate/100);
+ const realizedAfter=realizedPretax-tax;
+ const hypotheticalPretax=realizedPretax+unrealSwap+unrealFx;
+ const hypotheticalTax=Math.max(0,hypotheticalPretax)*(data.settings.taxRate/100);
+ const hypotheticalAfter=hypotheticalPretax-hypotheticalTax;
+ return {realizedSwap,realizedFx,unrealSwap,unrealFx,realizedPretax,tax,realizedAfter,hypotheticalPretax,hypotheticalTax,hypotheticalAfter,totalSwap:realizedSwap+unrealSwap};
+}
+function accountMetrics(id){const tx=data.transactions.filter(x=>x.accountId===id);const ps=data.positions.filter(x=>x.accountId===id);const rs=tx.filter(x=>x.type==='swap').reduce((s,x)=>s+x.amount,0);const rf=tx.filter(x=>x.type==='fx').reduce((s,x)=>s+x.amount,0);const us=ps.reduce((s,x)=>s+x.unrealizedSwap,0);const uf=ps.reduce((s,x)=>s+x.unrealizedFx,0);return {rs,rf,us,uf,now:rs+rf+us+uf}}
+function renderAll(){
+ document.getElementById('todayLabel').textContent=new Date().toLocaleDateString('ja-JP');
+ const m=metrics(),t=data.settings.target,rr=Math.max(0,m.realizedAfter/t),lr=Math.max(0,m.hypotheticalAfter/t);
+ document.getElementById('targetText').textContent=yen(t);document.getElementById('realizedBar').style.width=Math.min(rr*100,100)+'%';document.getElementById('liquidBar').style.width=Math.min(lr*100,100)+'%';document.getElementById('realizedRate').textContent=pct(rr);document.getElementById('liquidRate').textContent=pct(lr);
+ document.getElementById('swapTotal').textContent=yen(m.totalSwap);setMetric('realizedScore',m.realizedAfter);setMetric('liquidScore',m.hypotheticalAfter);document.getElementById('remaining').textContent=yen(Math.max(0,t-m.realizedAfter));document.getElementById('taxEstimate').textContent=yen(m.tax);document.getElementById('taxRateBadge').textContent=data.settings.taxRate+'%';
+ const level=rr>=1?'👑 COMPLETE':rr>=.75?'🥇 FINAL STAGE':rr>=.5?'🥈 HALF CLEAR':rr>=.25?'🥉 1/4 CLEAR':'START';document.getElementById('levelLabel').textContent=level;
+ fillAccountSelects();renderAccounts();renderPositions();renderHistory();document.getElementById('setTarget').value=data.settings.target;document.getElementById('setTax').value=data.settings.taxRate;
+}
+function setMetric(id,val){const el=document.getElementById(id);el.textContent=yen(val);el.classList.remove('good','bad');if(val>0)el.classList.add('good');if(val<0)el.classList.add('bad')}
+function fillAccountSelects(){['txAccount','posAccount'].forEach(id=>{const el=document.getElementById(id);const cur=el.value;el.innerHTML=data.accounts.map(a=>`<option value="${a.id}">${a.name}</option>`).join('');if(cur)el.value=cur})}
+function renderAccounts(){
+ const summary=document.getElementById('accountSummary'),cards=document.getElementById('accountCards');
+ summary.innerHTML=data.accounts.map(a=>{const m=accountMetrics(a.id);return `<div class="account"><div class="row"><strong>${a.name}</strong><span class="tag ${a.mode==='daily'?'green':'gold'}">${a.mode==='daily'?'確定型':'未決済型'}</span></div><div class="two"><div class="kpi"><span class="tiny">確定SWAP</span><b>${yen(m.rs)}</b></div><div class="kpi"><span class="tiny">全決済ベース</span><b class="${m.now<0?'bad':''}">${yen(m.now)}</b></div></div></div>`}).join('');
+ cards.innerHTML=data.accounts.map(a=>{const m=accountMetrics(a.id);return `<div class="account"><div class="row"><div><strong>${a.name}</strong><div class="tiny">${a.note}</div></div><span class="tag ${a.mode==='daily'?'green':'gold'}">${a.mode==='daily'?'確定型':'未決済型'}</span></div><div class="two"><div class="kpi"><span class="tiny">確定スワップ</span><b>${yen(m.rs)}</b></div><div class="kpi"><span class="tiny">確定為替</span><b>${yen(m.rf)}</b></div><div class="kpi"><span class="tiny">未決済SWAP</span><b>${yen(m.us)}</b></div><div class="kpi"><span class="tiny">含み損益</span><b>${yen(m.uf)}</b></div></div></div>`}).join('');
+}
+function renderPositions(){
+ const holder=document.getElementById('positionCards'),missions=document.getElementById('missionSummary');
+ if(!data.positions.length){holder.innerHTML='<div class="empty">未決済ポジションはまだありません。</div>';missions.innerHTML='<div class="empty">ポジションを登録すると救出ミッションが表示されます。</div>';return}
+ holder.innerHTML=data.positions.map(p=>{const a=data.accounts.find(x=>x.id===p.accountId);const net=p.unrealizedFx+p.unrealizedSwap;return `<div class="mission"><div class="row"><div><strong>${esc(p.pair)}</strong><div class="tiny">${a?.name||''} ${p.memo?'/ '+esc(p.memo):''}</div></div><button class="btn danger small" onclick="deletePos('${p.id}')">削除</button></div><div class="two"><div class="kpi"><span class="tiny">為替評価</span><b>${yen(p.unrealizedFx)}</b></div><div class="kpi"><span class="tiny">未決済SWAP</span><b>${yen(p.unrealizedSwap)}</b></div></div><div class="row"><span class="tiny">ポジション実質損益</span><strong>${yen(net)}</strong></div></div>`}).join('');
+ missions.innerHTML=data.positions.map(p=>missionHTML(p)).join('');
+}
+function missionHTML(p){const loss=Math.max(0,-p.unrealizedFx);const swap=Math.max(0,p.unrealizedSwap);const prog=loss>0?Math.min(1,swap/loss):(p.unrealizedFx+p.unrealizedSwap>=0?1:0);const remain=Math.max(0,loss-swap);const days=p.dailySwap>0?Math.ceil(remain/p.dailySwap):null;return `<div class="mission"><div class="row"><div><strong>🎮 ${esc(p.pair)} 救出</strong><div class="tiny">建値 ${p.entry||'-'} / 数量 ${Number(p.qty||0).toLocaleString()}</div></div><span class="tag ${prog>=1?'green':'gold'}">${Math.round(prog*100)}%</span></div><div class="missionbar"><span style="width:${prog*100}%"></span></div><div class="row"><span class="tiny">為替損失のSWAP回収残り</span><strong>${yen(remain)}</strong></div><div class="tiny">${days!==null?(remain===0?'🎉 POSITION RECOVERED':'現在の1日SWAPなら約 '+days.toLocaleString()+' 日'):'1日SWAPを入れると回収日数を表示'}</div></div>`}
+function renderHistory(){const h=document.getElementById('historyList');if(!data.transactions.length){h.innerHTML='<div class="empty">確定損益の履歴はまだありません。</div>';return}h.innerHTML=[...data.transactions].sort((a,b)=>b.date.localeCompare(a.date)).map(x=>{const a=data.accounts.find(z=>z.id===x.accountId);return `<div class="account"><div class="row"><div><strong>${x.type==='swap'?'💰 確定スワップ':'📉 確定為替損益'}</strong><div class="tiny">${x.date} / ${a?.name||''}${x.memo?' / '+esc(x.memo):''}</div></div><div style="text-align:right"><strong class="${x.amount<0?'bad':'good'}">${yen(x.amount)}</strong><br><button class="btn danger small" onclick="deleteTx('${x.id}')">削除</button></div></div></div>`}).join('')}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1700)}
+window.deleteTx=id=>{data.transactions=data.transactions.filter(x=>x.id!==id);save();toast('履歴を削除しました')};window.deletePos=id=>{data.positions=data.positions.filter(x=>x.id!==id);save();toast('ポジションを削除しました')};
+
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.view).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}));
+document.getElementById('txDate').value=new Date().toISOString().slice(0,10);
+document.getElementById('addTxBtn').onclick=()=>{const amount=Number(document.getElementById('txAmount').value);if(!amount)return toast('金額を入力してください');data.transactions.push({id:crypto.randomUUID(),accountId:document.getElementById('txAccount').value,date:document.getElementById('txDate').value||new Date().toISOString().slice(0,10),type:document.getElementById('txType').value,amount,memo:document.getElementById('txMemo').value});document.getElementById('txAmount').value='';document.getElementById('txMemo').value='';save();toast('確定損益を追加しました')};
+document.getElementById('addPosBtn').onclick=()=>{const pair=document.getElementById('posPair').value.trim();if(!pair)return toast('通貨ペアを入力してください');data.positions.push({id:crypto.randomUUID(),accountId:document.getElementById('posAccount').value,pair,entry:Number(document.getElementById('posEntry').value)||0,qty:Number(document.getElementById('posQty').value)||0,unrealizedFx:Number(document.getElementById('posFx').value)||0,unrealizedSwap:Number(document.getElementById('posSwap').value)||0,dailySwap:Number(document.getElementById('posDaily').value)||0,memo:document.getElementById('posMemo').value});['posPair','posEntry','posQty','posFx','posSwap','posDaily','posMemo'].forEach(id=>document.getElementById(id).value='');save();toast('ポジションを追加しました')};
+document.getElementById('saveSettingsBtn').onclick=()=>{data.settings.target=Number(document.getElementById('setTarget').value)||3000000;data.settings.taxRate=Number(document.getElementById('setTax').value)||20.315;save();toast('設定を保存しました')};
+document.getElementById('resetBtn').onclick=()=>{if(confirm('全データを削除しますか？')){data={settings:{target:3000000,taxRate:20.315},accounts:DEFAULT_ACCOUNTS,transactions:[],positions:[]};save();toast('初期化しました')}};
+document.getElementById('demoBtn').onclick=()=>{data.transactions=[{id:crypto.randomUUID(),accountId:'gmo',date:'2026-09-30',type:'swap',amount:800000,memo:'累計例'},{id:crypto.randomUUID(),accountId:'central',date:'2026-09-30',type:'swap',amount:700000,memo:'過去確定分'},{id:crypto.randomUUID(),accountId:'jfx',date:'2026-09-30',type:'swap',amount:900000,memo:'過去確定分'},{id:crypto.randomUUID(),accountId:'sbi',date:'2026-09-30',type:'swap',amount:600000,memo:'過去確定分'},{id:crypto.randomUUID(),accountId:'gmo',date:'2026-09-30',type:'fx',amount:-200000,memo:'損切り'},{id:crypto.randomUUID(),accountId:'central',date:'2026-09-30',type:'fx',amount:-300000,memo:'損切り'},{id:crypto.randomUUID(),accountId:'jfx',date:'2026-09-30',type:'fx',amount:-400000,memo:'損切り'},{id:crypto.randomUUID(),accountId:'sbi',date:'2026-09-30',type:'fx',amount:-1600000,memo:'損切り'}];data.positions=[{id:crypto.randomUUID(),accountId:'central',pair:'TRY/JPY',entry:3.55,qty:1000000,unrealizedFx:-400000,unrealizedSwap:200000,dailySwap:2500,memo:'高値掴みA'},{id:crypto.randomUUID(),accountId:'jfx',pair:'MXN/JPY',entry:9.1,qty:200000,unrealizedFx:-300000,unrealizedSwap:250000,dailySwap:1100,memo:'長期枠'},{id:crypto.randomUUID(),accountId:'sbi',pair:'CHF/TRY',entry:58.5,qty:10000,unrealizedFx:-300000,unrealizedSwap:150000,dailySwap:1800,memo:'売りポジション'}];save();toast('デモデータを投入しました')};
+document.getElementById('exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='swap-quest-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(a.href)};
+document.getElementById('importInput').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.settings||!d.accounts)throw new Error();data=d;save();toast('バックアップを復元しました')}catch(err){toast('読み込みに失敗しました')}};r.readAsText(f)};
+if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js');
+renderAll();
+</script>
+</body>
+</html>
