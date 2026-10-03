@@ -1,12 +1,11 @@
 {
-  "name":"SWAP QUEST - 元金回収ゲーム",
-  "short_name":"SWAP QUEST",
-  "start_url":"./",
-  "display":"standalone",
-  "background_color":"#07111f",
-  "theme_color":"#0f172a",
-  "lang":"ja",
-  "icons":[
+  "name": "SWAP QUEST - 元金回収ゲーム",
+  "short_name": "SWAP QUEST",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#07111f",
+  "theme_color": "#0f172a",
+  "icons": [
     {"src":"icon-192.png","sizes":"192x192","type":"image/png"},
     {"src":"icon-512.png","sizes":"512x512","type":"image/png"}
   ]
