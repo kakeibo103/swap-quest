@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#0f172a" />
-  <title>SWAP QUEST - 元金回収ゲーム</title>
+  <meta name="theme-color" content="#f6f4e9" />
+  <title>SWAP QUEST - 300万円回収クエスト</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <style>
     :root{--bg:#07111f;--panel:#0f1b2d;--panel2:#13243b;--text:#eef6ff;--muted:#91a4bb;--accent:#65e1c2;--accent2:#ffd166;--danger:#ff7b7b;--good:#6ee7a7;--line:#223652;--shadow:0 12px 34px rgba(0,0,0,.28)}
@@ -16,30 +16,71 @@
     .form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.form label{font-size:12px;color:var(--muted);display:grid;gap:6px}.form input,.form select{width:100%;background:#08131f;color:var(--text);border:1px solid #29435f;border-radius:11px;padding:10px 11px;outline:none}.form .full{grid-column:1/-1}.help{font-size:11px;color:var(--muted);line-height:1.55}.tag{display:inline-flex;align-items:center;border-radius:999px;padding:4px 8px;font-size:11px;border:1px solid #2b4b6d;background:#0b1a2c;color:#c8def4}.tag.gold{border-color:#6d5830;color:#ffe6a4}.tag.green{border-color:#285b4e;color:#b8f7e4}.tag.red{border-color:#713543;color:#ffc2cb}.account,.position-card,.history{display:grid;gap:9px}.account,.position-card{padding:13px;border:1px solid #213954;background:#0b1728;border-radius:15px}.account strong,.position-card strong{font-size:15px}.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}.kpi{background:#07111d;border-radius:12px;padding:10px;border:1px solid #1c3048}.kpi b{display:block;font-size:17px;margin-top:2px}.editing{border-color:#65e1c2;box-shadow:0 0 0 1px rgba(101,225,194,.25)}
     .nav{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);width:min(680px,calc(100% - 24px));background:rgba(8,17,30,.95);backdrop-filter:blur(18px);border:1px solid #243b58;border-radius:18px;padding:7px;display:grid;grid-template-columns:repeat(5,1fr);z-index:20;box-shadow:var(--shadow)}.nav button{background:transparent;border:0;color:#7f95ae;padding:9px 4px;border-radius:12px;font-size:11px;cursor:pointer}.nav button.active{background:#132a44;color:#eafff9}.view{display:none}.view.active{display:block}.empty{text-align:center;padding:22px 8px;color:var(--muted);font-size:13px}.toast{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-20px);background:#dffdf5;color:#06251d;border-radius:12px;padding:10px 14px;font-weight:800;opacity:0;pointer-events:none;transition:.25s;z-index:50}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
     @media(max-width:640px){.app{padding-top:12px}.grid,.form{grid-template-columns:1fr}.span2,.form .full{grid-column:auto}.big{font-size:30px}.hero-head{display:block}.hero-head .pill{display:inline-block;margin-top:10px}.two{grid-template-columns:1fr 1fr}.metric{font-size:22px}}
+  
+    /* v0.3: 明るいベージュ + グリーン。従来の要素は変更せず再スタイル */
+    :root{color-scheme:light;--bg:#f6f4eb;--panel:#fffefa;--panel2:#eef5ef;--text:#263d33;--muted:#63796c;--accent:#6da88e;--accent2:#d8ac68;--danger:#bf624f;--good:#267e61;--line:#dce6da;--shadow:0 10px 30px rgba(53,86,62,.08)}
+    body{background:linear-gradient(165deg,#eaf3e9 0,#f7f4ec 35%,#f7f6f0 100%);color:var(--text)}
+    .brand h1{color:#315d49}.brand p{color:#75877d}
+    .pill{background:#edf4ed;border:1px solid #d3e5d4;color:#426e58}
+    .hero{background:linear-gradient(140deg,#eff7e8,#e1f0e3);border:1px solid #d1e5d1;box-shadow:var(--shadow)}
+    .hero:after{background:rgba(99,164,121,.13)}
+    .hero .big{color:#284e3b}.hero .eyebrow{color:#537b61}
+    .progress{background:#d5e4d4;border-color:#c8ddc7}.progress>span{background:linear-gradient(90deg,#74b58c,#3a946d)}
+    .progress.secondary>span{background:linear-gradient(90deg,#e7c681,#cda262)}
+    .card{background:#fffefa;border:1px solid #e2e9de;box-shadow:var(--shadow)}
+    .card h3{color:#537162}.rows .item{border-bottom-color:#e3ebdf}
+    .metric.good,.good{color:#2f936c}.metric.bad,.bad{color:#b75a49}
+    .btn{background:#4f9875;color:white;box-shadow:none}.btn.secondary{background:#edf4ec;color:#3b7557;border:1px solid #cfe3d2}
+    .btn.danger{background:#f9eeeb;color:#b24f43;border:1px solid #eed0cb}
+    .form input,.form select{background:white;color:#274333;border:1px solid #cbded0}
+    .form input:focus,.form select:focus{border-color:#76ac8b;box-shadow:0 0 0 2px #e0f0e3}
+    .tag{border-color:#d8e5d8;background:#edf5eb;color:#416e53}.tag.gold{border-color:#ecdcbf;color:#8a6b3c;background:#fcf7e9}.tag.green{border-color:#cae4d3;color:#318160;background:#eff8f1}.tag.red{border-color:#efd1d1;color:#b4564a;background:#fbefed}
+    .account,.position-card{background:#f9faf5;border-color:#e0e8dd}.kpi{background:#fff;border:1px solid #e5ece2}
+    .editing{border-color:#83b99c;box-shadow:0 0 0 2px #d6ecde}
+    .nav{background:rgba(255,254,249,.97);border:1px solid #dde9dd;box-shadow:0 8px 28px rgba(53,86,62,.14)}
+    .nav button{color:#6f8a77}.nav button.active{background:#e5f1e5;color:#337553}
+    .toast{background:#dff4e5;color:#315a3f}
+    .capital-card{margin-top:14px}.capital-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px}
+    .capital-table{display:grid;gap:8px}.capital-row{display:grid;grid-template-columns:minmax(98px,1fr) minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:end;padding:10px;border-radius:12px;background:#f7faf5}
+    .capital-row label{font-size:12px;color:var(--muted);display:grid;gap:5px}.capital-row input{min-width:0;width:100%;background:white;color:var(--text);border:1px solid #cadfce;border-radius:9px;padding:9px 8px}
+    .capital-row .account-name{font-size:12px;font-weight:800;overflow-wrap:anywhere;padding-bottom:10px}
+    .round-metric{font-size:clamp(21px,5vw,28px);line-height:1.2;overflow-wrap:anywhere}.return-grid{margin-top:12px}
+    .muted-action{font-size:12px;color:#347a5d;background:none;border:0;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:3px}
+    details.more-stats{margin-top:13px}details.more-stats>summary{cursor:pointer;color:#3e7357;font-weight:700;padding:12px 4px}details.more-stats .grid{margin-top:4px}
+    .asof{font-size:11px;color:var(--muted);line-height:1.6}.warning-soft{border-radius:12px;background:#fff9ea;border:1px solid #f0e0b9;padding:11px 12px;font-size:12px;color:#806541;line-height:1.5}
+    @media(max-width:640px){.capital-row{grid-template-columns:1fr 1fr}.capital-row .account-name{grid-column:1/-1;padding:0}.capital-row input{font-size:16px}.return-grid{grid-template-columns:1fr 1fr}.return-grid .metric{font-size:23px}}
   </style>
 </head>
 <body>
 <div class="toast" id="toast"></div>
 <div class="app">
-  <div class="topbar"><div class="brand"><h1>SWAP QUEST</h1><p>v0.2 ・ 税引後・為替損益込みで元金回収を目指す</p></div><span class="pill" id="todayLabel"></span></div>
+  <div class="topbar"><div class="brand"><h1>SWAP QUEST</h1><p>v0.3 ・ 300万円回収クエストを楽しく、シンプルに</p></div><span class="pill" id="todayLabel"></span></div>
 
   <section id="home" class="view active">
     <div class="hero">
-      <div class="hero-head"><div><div class="eyebrow">🎯 元金回収クエスト</div><div class="big" id="targetText">¥3,000,000</div><div class="sub">公式スコア = 確定損益 − 想定税金</div></div><span class="pill" id="levelLabel">START</span></div>
+      <div class="hero-head"><div><div class="eyebrow">🎯 300万円回収クエスト</div><div class="big" id="targetText">¥3,000,000</div><div class="sub">公式スコア = 確定損益 − 想定税金</div></div><span class="pill" id="levelLabel">START</span></div>
       <div class="progress"><span id="realizedBar"></span></div>
       <div class="row"><span class="sub">確定回収率</span><strong id="realizedRate">0.0%</strong></div>
       <div class="progress secondary"><span id="liquidBar"></span></div>
       <div class="row"><span class="sub">推定SWAP込み・今すぐ全決済した場合</span><strong id="liquidRate">0.0%</strong></div>
     </div>
 
+    <div class="grid return-grid">
+      <div class="card"><h3>総合利回り（累計）</h3><div class="metric round-metric" id="portfolioReturn">--</div><div class="tiny" id="portfolioPL">口座資産 − 実質投入元金</div></div>
+      <div class="card"><h3>スワップ想定年利回り</h3><div class="metric round-metric good" id="swapAnnualReturn">--</div><div class="tiny" id="annualSwapYen">1日SWAP × 365 ÷ 元金</div></div>
+    </div>
+    <div class="row" style="margin:9px 2px 4px;align-items:flex-start"><div class="asof" id="portfolioAsOf"></div><button class="muted-action" id="gotoPortfolioBtn" type="button">資産額を更新 ›</button></div>
+
     <div class="grid">
       <div class="card"><h3>SWAP TOTAL</h3><div class="metric good" id="swapTotal">¥0</div><div class="tiny">確定 + 基準未決済 + 推定増加</div></div>
       <div class="card"><h3>推定SWAP増加</h3><div class="metric good" id="estimatedSwapGain">¥0</div><div class="tiny">1日SWAP × 基準日からの経過日数</div></div>
+    </div>
+    <details class="more-stats"><summary>回収スコア・税金見込みの詳細を見る</summary><div class="grid">
       <div class="card"><h3>REALIZED SCORE</h3><div class="metric" id="realizedScore">¥0</div><div class="tiny">税引後の確定回収額</div></div>
       <div class="card"><h3>LIQUIDATION SCORE</h3><div class="metric" id="liquidScore">¥0</div><div class="tiny">全ポジション決済時の税引後想定</div></div>
       <div class="card"><h3>残り</h3><div class="metric" id="remaining">¥3,000,000</div><div class="tiny">確定ベースで元金回収まで</div></div>
-      <div class="card"><h3>今年の税金見込み</h3><div class="metric" id="taxEstimate">¥0</div><div class="tiny">確定損益がプラスの場合の単純試算</div></div>
-    </div>
+      <div class="card"><h3>今年の税金見込み</h3><div class="metric" id="taxEstimate">¥0</div><div class="tiny">登録された確定損益の単純試算（年別自動区分なし）</div></div>
+    </div></details>
 
     <h2 class="section-title">4口座サマリー</h2><div class="rows" id="accountSummary"></div>
   </section>
@@ -78,6 +119,15 @@
   </section>
 
   <section id="settings" class="view">
+    <h2 class="section-title">実質元金・現在の口座資産</h2>
+    <div class="card capital-card" id="capitalEditor">
+      <div class="capital-header"><strong>利回り用の数字</strong><span class="tag green">必要なときだけ更新</span></div>
+      <p class="help" style="margin:0 0 12px">実質投入元金は入金−出金、現在資産は未決済損益・スワップも含めた時価評価額（有効証拠金・口座清算価値）を入力。初回は個人用集計ファイルで一括入力できます。普段は<strong>現在資産の列だけ</strong>更新すればOKです。</p>
+      <div class="capital-table" id="capitalRows"></div>
+      <p class="asof" id="capitalAsOf"></p>
+      <div class="actions"><button class="btn" id="saveCapitalBtn" type="button">資産額を保存</button><label class="btn secondary" style="cursor:pointer">集計値ファイルを読み込む<input id="portfolioImportInput" type="file" accept="application/json,.json" style="display:none"></label></div>
+      <div class="warning-soft" style="margin-top:12px">総合利回りは入力した時点の資産評価額で計算します。日々の推定SWAPは二重計上を避けるため総合利回りに自動加算しません。スワップ想定年利回りは登録中の1日SWAPから自動計算します。</div>
+    </div>
     <h2 class="section-title">設定</h2>
     <div class="card"><div class="form">
       <label>元金回収目標（円）<input id="setTarget" type="number"></label>
@@ -101,7 +151,9 @@ const DEFAULT_ACCOUNTS=[
   {id:'jfx',name:'JFX',mode:'unrealized',note:'未決済スワップとして管理'},
   {id:'sbi',name:'SBI FXトレード',mode:'unrealized',note:'未決済スワップとして管理'}
 ];
-const KEY='swapQuestDataV1'; // v0.1と同じキー。既存データを引き継ぐ
+const KEY='swapQuestDataV1'; // v0.1 / v0.2 と同じキー。既存データを引き継ぐ
+const PRE_UPDATE_KEY='swapQuestDataBeforeV03';
+// 元金・口座資産を公開のソースコードには入れない（GitHub Pagesは誰でも閲覧できるため）
 let editPositionId=null;
 let data=load();
 
@@ -123,6 +175,13 @@ function normalizeData(d){
   d.settings=d.settings||{target:3000000,taxRate:20.315};
   d.accounts=Array.isArray(d.accounts)&&d.accounts.length?d.accounts:DEFAULT_ACCOUNTS;
   d.transactions=Array.isArray(d.transactions)?d.transactions:[];
+  // v0.2はportfolio欄を持たない。初回だけ前回集計値を引き継ぐ（既存の取引・建玉データは触らない）
+  if(!d.portfolio || typeof d.portfolio!=='object')d.portfolio={asOf:null,balances:{}};
+  if(!d.portfolio.balances || typeof d.portfolio.balances!=='object')d.portfolio.balances={};
+
+  for(const a of d.accounts){
+    if(!d.portfolio.balances[a.id])d.portfolio.balances[a.id]={netDeposit:null,equity:null};
+  }
   d.positions=(Array.isArray(d.positions)?d.positions:[]).map(p=>({
     id:p.id||crypto.randomUUID(),accountId:p.accountId||'gmo',pair:p.pair||'',
     unrealizedFx:Number(p.unrealizedFx)||0,
@@ -133,7 +192,19 @@ function normalizeData(d){
   }));
   return d;
 }
-function load(){try{const d=JSON.parse(localStorage.getItem(KEY));if(d)return normalizeData(d)}catch(e){}return normalizeData({settings:{target:3000000,taxRate:20.315},accounts:DEFAULT_ACCOUNTS,transactions:[],positions:[]})}
+function load(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(raw){
+      const d=JSON.parse(raw);
+      if(d && !d.portfolio && !localStorage.getItem(PRE_UPDATE_KEY)){
+        try{localStorage.setItem(PRE_UPDATE_KEY,raw)}catch(e){} // 更新直前データを1回だけ別キーに保存
+      }
+      if(d)return normalizeData(d);
+    }
+  }catch(e){}
+  return normalizeData({settings:{target:3000000,taxRate:20.315},accounts:DEFAULT_ACCOUNTS,transactions:[],positions:[]});
+}
 function save(){data=normalizeData(data);localStorage.setItem(KEY,JSON.stringify(data));renderAll()}
 const yen=n=>new Intl.NumberFormat('ja-JP',{style:'currency',currency:'JPY',maximumFractionDigits:0}).format(Math.round(n||0));
 const pct=n=>(n*100).toFixed(1)+'%';
@@ -165,6 +236,31 @@ function accountMetrics(id){
   return {rs,rf,base,eg,us,uf,now:rs+rf+us+uf};
 }
 function setMetric(id,val){const el=document.getElementById(id);el.textContent=yen(val);el.classList.remove('good','bad');if(val>0)el.classList.add('good');if(val<0)el.classList.add('bad')}
+function portfolioMetrics(){
+  const bs=data.portfolio.balances;
+  const rows=data.accounts.map(a=>bs[a.id]||{});
+  const ready=rows.length>0&&rows.every(r=>Number.isFinite(Number(r.netDeposit))&&r.netDeposit!==null&&r.netDeposit!==''&&r.equity!==null&&r.equity!==''&&Number.isFinite(Number(r.equity)));
+  const principal=rows.reduce((s,r)=>s+(Number(r.netDeposit)||0),0);
+  const equity=rows.reduce((s,r)=>s+(Number(r.equity)||0),0);
+  const pl=equity-principal;
+  const dailySwap=data.positions.reduce((s,p)=>s+(Number(p.dailySwap)||0),0);
+  return {ready,principal,equity,pl,returnRate:ready&&principal>0?pl/principal:null,dailySwap,annualSwap:dailySwap*365,annualRate:principal>0?dailySwap*365/principal:null};
+}
+function renderPortfolio(){
+  const pm=portfolioMetrics(),el=document.getElementById('portfolioReturn');
+  el.textContent=pm.returnRate===null?'--':(pm.returnRate>0?'+':'')+pct(pm.returnRate);
+  el.classList.remove('good','bad');if(pm.returnRate>0)el.classList.add('good');if(pm.returnRate<0)el.classList.add('bad');
+  document.getElementById('portfolioPL').textContent=pm.ready?'総合損益 '+(pm.pl>0?'+':'')+yen(pm.pl)+' ／ 実質元金 '+yen(pm.principal):'設定で口座資産を初回登録';
+  const annual=document.getElementById('swapAnnualReturn');annual.textContent=!data.positions.length||pm.annualRate===null?'--':(pm.annualRate>0?'+':'')+pct(pm.annualRate);
+  annual.classList.toggle('bad',pm.annualRate!==null&&pm.annualRate<0);
+  document.getElementById('annualSwapYen').textContent=data.positions.length&&pm.principal>0?'1日 '+yen(pm.dailySwap)+' → 年換算 '+yen(pm.annualSwap):'ポジションと元金を登録すると自動計算';
+  document.getElementById('portfolioAsOf').textContent='総合利回り：'+(data.portfolio.asOf||'未設定')+'時点の入力値／スワップ想定年利回り：現在の登録値（税・為替変動前）';
+  document.getElementById('capitalAsOf').textContent=pm.ready?'資産評価額の更新日：'+(data.portfolio.asOf||'未設定')+'　／　実質投入元金 合計 '+yen(pm.principal)+' ・ 現在資産 合計 '+yen(pm.equity):'初回だけ金額を登録してください（個人用集計ファイルの読み込み可）';
+  document.getElementById('capitalRows').innerHTML=data.accounts.map(a=>{
+    const b=data.portfolio.balances[a.id]||{netDeposit:0,equity:null};
+    return `<div class="capital-row"><span class="account-name">${esc(a.name)}</span><label>実質投入元金（円）<input data-account="${esc(a.id)}" data-field="netDeposit" type="number" inputmode="numeric" step="1" value="${b.netDeposit??''}" aria-label="${esc(a.name)} 実質投入元金"></label><label>現在資産（円）<input data-account="${esc(a.id)}" data-field="equity" type="number" inputmode="numeric" step="1" value="${b.equity??''}" aria-label="${esc(a.name)} 現在資産"></label></div>`;
+  }).join('');
+}
 function renderAll(){
   document.getElementById('todayLabel').textContent=new Date().toLocaleDateString('ja-JP');
   const m=metrics(),t=Number(data.settings.target||3000000),rr=Math.max(0,m.realizedAfter/t),lr=Math.max(0,m.hypotheticalAfter/t);
@@ -175,7 +271,7 @@ function renderAll(){
   setMetric('realizedScore',m.realizedAfter);setMetric('liquidScore',m.hypotheticalAfter);
   document.getElementById('remaining').textContent=yen(Math.max(0,t-m.realizedAfter));document.getElementById('taxEstimate').textContent=yen(m.tax);
   const level=rr>=1?'👑 COMPLETE':rr>=.75?'🥇 FINAL STAGE':rr>=.5?'🥈 HALF CLEAR':rr>=.25?'🥉 1/4 CLEAR':'START';document.getElementById('levelLabel').textContent=level;
-  fillAccountSelects();renderAccounts();renderPositions();renderHistory();document.getElementById('setTarget').value=data.settings.target;document.getElementById('setTax').value=data.settings.taxRate;
+  renderPortfolio();fillAccountSelects();renderAccounts();renderPositions();renderHistory();document.getElementById('setTarget').value=data.settings.target;document.getElementById('setTax').value=data.settings.taxRate;
 }
 function fillAccountSelects(){['txAccount','posAccount'].forEach(id=>{const el=document.getElementById(id);const cur=el.value;el.innerHTML=data.accounts.map(a=>`<option value="${a.id}">${a.name}</option>`).join('');if(cur&&data.accounts.some(a=>a.id===cur))el.value=cur})}
 function renderAccounts(){
@@ -197,15 +293,50 @@ window.editPos=id=>{const p=data.positions.find(x=>x.id===id);if(!p)return;editP
 
 document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.view).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}));
 document.getElementById('txDate').value=localDateKey();document.getElementById('posSwapDate').value=localDateKey();
+document.getElementById('gotoPortfolioBtn').onclick=()=>{document.querySelector('.nav button[data-view="settings"]').click();document.getElementById('capitalEditor').scrollIntoView({behavior:'smooth',block:'start'})};
+document.getElementById('portfolioImportInput').onchange=e=>{
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const imported=JSON.parse(reader.result);
+      if(imported.type!=='swapQuestPortfolioSnapshot'||!imported.balances)throw new Error('形式が違います');
+      const b={};
+      for(const a of data.accounts){
+        const r=imported.balances[a.id];
+        if(!r||r.netDeposit===null||r.equity===null||r.netDeposit===''||r.equity===''||!Number.isFinite(Number(r.netDeposit))||!Number.isFinite(Number(r.equity))||Number(r.netDeposit)<0||Number(r.equity)<0)throw new Error('金額が不正です');
+        b[a.id]={netDeposit:Number(r.netDeposit),equity:Number(r.equity)};
+      }
+      if(Object.values(b).reduce((s,r)=>s+r.netDeposit,0)<=0)throw new Error('元金を確認');
+      if(!confirm('読み込んだ集計値で元金・口座資産を更新しますか？'))return;
+      data.portfolio.balances=b;data.portfolio.asOf=imported.asOf||localDateKey();save();toast('集計値を読み込みました');
+    }catch(err){toast('集計ファイルを確認してください')}
+    finally{e.target.value=''}
+  };
+  reader.readAsText(file);
+};
+document.getElementById('saveCapitalBtn').onclick=()=>{
+  const inputs=[...document.querySelectorAll('#capitalRows input')];
+  if(inputs.some(e=>e.value.trim()===''||!Number.isFinite(Number(e.value))))return toast('すべての金額を入力してください');
+  const changes={};
+  for(const a of data.accounts)changes[a.id]={};
+  for(const el of inputs)changes[el.dataset.account][el.dataset.field]=Number(el.value);
+  if(Object.values(changes).some(x=>x.netDeposit<0||x.equity<0))return toast('金額は0以上で入力してください');
+  const total=Object.values(changes).reduce((s,x)=>s+x.netDeposit,0);
+  if(total===0)return toast('実質投入元金を確認してください');
+  data.portfolio.balances=changes;
+  data.portfolio.asOf=localDateKey();
+  save();toast('資産額を更新しました');
+};
 document.getElementById('addTxBtn').onclick=()=>{const amount=Number(document.getElementById('txAmount').value);if(!amount)return toast('金額を入力してください');data.transactions.push({id:crypto.randomUUID(),accountId:document.getElementById('txAccount').value,date:document.getElementById('txDate').value||localDateKey(),type:document.getElementById('txType').value,amount,memo:document.getElementById('txMemo').value});document.getElementById('txAmount').value='';document.getElementById('txMemo').value='';save();toast('確定損益を追加しました')};
 document.getElementById('addPosBtn').onclick=()=>{const pair=document.getElementById('posPair').value.trim();if(!pair)return toast('通貨ペアを入力してください');const record={accountId:document.getElementById('posAccount').value,pair,unrealizedFx:Number(document.getElementById('posFx').value)||0,unrealizedSwap:Number(document.getElementById('posSwap').value)||0,dailySwap:Number(document.getElementById('posDaily').value)||0,swapBaseDate:document.getElementById('posSwapDate').value||localDateKey(),memo:document.getElementById('posMemo').value};if(editPositionId){const i=data.positions.findIndex(x=>x.id===editPositionId);if(i>=0)data.positions[i]={...data.positions[i],...record};save();clearPositionForm();renderAll();toast('ポジションを更新しました')}else{data.positions.push({id:crypto.randomUUID(),...record});save();clearPositionForm();renderAll();toast('ポジションを追加しました')}};
 document.getElementById('cancelEditBtn').onclick=()=>{clearPositionForm();renderAll()};
 document.getElementById('saveSettingsBtn').onclick=()=>{data.settings.target=Number(document.getElementById('setTarget').value)||3000000;data.settings.taxRate=Number(document.getElementById('setTax').value)||20.315;save();toast('設定を保存しました')};
-document.getElementById('resetBtn').onclick=()=>{if(confirm('全データを削除しますか？')){data=normalizeData({settings:{target:3000000,taxRate:20.315},accounts:DEFAULT_ACCOUNTS,transactions:[],positions:[]});localStorage.setItem(KEY,JSON.stringify(data));clearPositionForm();renderAll();toast('初期化しました')}};
-document.getElementById('demoBtn').onclick=()=>{const base=new Date();base.setDate(base.getDate()-7);const baseDate=localDateKey(base);data.transactions=[{id:crypto.randomUUID(),accountId:'gmo',date:baseDate,type:'swap',amount:120000,memo:'累計例'},{id:crypto.randomUUID(),accountId:'gmo',date:baseDate,type:'fx',amount:-50000,memo:'損切り例'}];data.positions=[{id:crypto.randomUUID(),accountId:'central',pair:'TRY/JPY',unrealizedFx:-180000,unrealizedSwap:90000,dailySwap:2500,swapBaseDate:baseDate,memo:'長期枠'},{id:crypto.randomUUID(),accountId:'jfx',pair:'MXN/JPY',unrealizedFx:-60000,unrealizedSwap:40000,dailySwap:1100,swapBaseDate:baseDate,memo:'ペソ枠'},{id:crypto.randomUUID(),accountId:'sbi',pair:'CHF/TRY',unrealizedFx:30000,unrealizedSwap:25000,dailySwap:1800,swapBaseDate:baseDate,memo:'売りポジション'}];save();clearPositionForm();renderAll();toast('デモデータを投入しました')};
+document.getElementById('resetBtn').onclick=()=>{if(confirm('全データを削除します。先にバックアップを保存しましたか？\nこの操作は元に戻せません。')&&confirm('本当にすべての記録を消しますか？')){data=normalizeData({settings:{target:3000000,taxRate:20.315},accounts:DEFAULT_ACCOUNTS,transactions:[],positions:[]});localStorage.setItem(KEY,JSON.stringify(data));clearPositionForm();renderAll();toast('初期化しました')}};
+document.getElementById('demoBtn').onclick=()=>{if((data.transactions.length||data.positions.length)&&!confirm('デモは現在の取引・建玉記録を上書きします。バックアップ保存後に続行してください。続けますか？'))return;const base=new Date();base.setDate(base.getDate()-7);const baseDate=localDateKey(base);data.transactions=[{id:crypto.randomUUID(),accountId:'gmo',date:baseDate,type:'swap',amount:120000,memo:'累計例'},{id:crypto.randomUUID(),accountId:'gmo',date:baseDate,type:'fx',amount:-50000,memo:'損切り例'}];data.positions=[{id:crypto.randomUUID(),accountId:'central',pair:'TRY/JPY',unrealizedFx:-180000,unrealizedSwap:90000,dailySwap:2500,swapBaseDate:baseDate,memo:'長期枠'},{id:crypto.randomUUID(),accountId:'jfx',pair:'MXN/JPY',unrealizedFx:-60000,unrealizedSwap:40000,dailySwap:1100,swapBaseDate:baseDate,memo:'ペソ枠'},{id:crypto.randomUUID(),accountId:'sbi',pair:'CHF/TRY',unrealizedFx:30000,unrealizedSwap:25000,dailySwap:1800,swapBaseDate:baseDate,memo:'売りポジション'}];save();clearPositionForm();renderAll();toast('デモデータを投入しました')};
 document.getElementById('exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='swap-quest-backup-'+localDateKey()+'.json';a.click();URL.revokeObjectURL(a.href)};
-document.getElementById('importInput').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.settings||!d.accounts)throw new Error();data=normalizeData(d);localStorage.setItem(KEY,JSON.stringify(data));clearPositionForm();renderAll();toast('バックアップを復元しました')}catch(err){toast('読み込みに失敗しました')}};r.readAsText(f)};
-if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js');
+document.getElementById('importInput').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.settings||!Array.isArray(d.accounts)||!d.accounts.length)throw new Error();if(!confirm('現在の記録をバックアップの内容で置き換えます。続けますか？'))return;data=normalizeData(d);localStorage.setItem(KEY,JSON.stringify(data));clearPositionForm();renderAll();toast('バックアップを復元しました')}catch(err){toast('読み込みに失敗しました')}};r.readAsText(f)};
+if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js?v=3',{updateViaCache:'none'});
 save();
 </script>
 </body>
